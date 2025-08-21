@@ -49,15 +49,15 @@ const ShoppingCart = ({
   const total = subtotal + shipping + tax;
 
   const EmptyCart = () => (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
-      <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4">
+    <div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
+      <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4 animate-bounce-in">
         <ShoppingBag className="w-10 h-10 text-muted-foreground" />
       </div>
       <h3 className="text-lg font-semibold mb-2">Your cart is empty</h3>
       <p className="text-muted-foreground mb-6 max-w-sm">
         Looks like you haven't added anything to your cart yet. Start shopping to fill it up!
       </p>
-      <Button onClick={onClose} className="bg-gradient-primary">
+      <Button onClick={onClose} className="bg-gradient-primary hover-lift transition-smooth">
         Continue Shopping
       </Button>
     </div>
@@ -67,18 +67,23 @@ const ShoppingCart = ({
     <div className="flex flex-col h-full">
       {/* Cart Items */}
       <div className="flex-1 overflow-y-auto space-y-4">
-        {cartItems.map((item) => (
-          <Card key={item.id} className="border-border/50">
-            <CardContent className="p-4">
-              <div className="flex gap-3">
-                {/* Product Image */}
-                <div className="w-16 h-16 rounded-lg overflow-hidden bg-secondary/50 flex-shrink-0">
-                  <img 
-                    src={item.image} 
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+        {cartItems.map((item, index) => (
+          <div
+            key={item.id}
+            className="animate-slide-up"
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
+            <Card className="border-border/50 hover-lift transition-smooth">
+              <CardContent className="p-4">
+                <div className="flex gap-3">
+                  {/* Product Image */}
+                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-secondary/50 flex-shrink-0">
+                    <img 
+                      src={item.image} 
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
 
                 {/* Product Details */}
                 <div className="flex-1 min-w-0">
@@ -94,7 +99,7 @@ const ShoppingCart = ({
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-7 w-7"
+                        className="h-7 w-7 hover-lift transition-smooth"
                         onClick={() => onUpdateQuantity(item.id, Math.max(0, item.quantity - 1))}
                       >
                         <Minus className="h-3 w-3" />
@@ -103,7 +108,7 @@ const ShoppingCart = ({
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-7 w-7"
+                        className="h-7 w-7 hover-lift transition-smooth"
                         onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
                       >
                         <Plus className="h-3 w-3" />
@@ -116,7 +121,7 @@ const ShoppingCart = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                  className="h-8 w-8 text-muted-foreground hover:text-destructive hover-lift transition-smooth"
                   onClick={() => onRemoveItem(item.id)}
                 >
                   <Trash2 className="h-4 w-4" />
@@ -124,12 +129,13 @@ const ShoppingCart = ({
               </div>
             </CardContent>
           </Card>
+          </div>
         ))}
       </div>
 
       {/* Order Summary */}
       <div className="border-t pt-4 space-y-4">
-        <Card className="bg-gradient-card">
+        <Card className="bg-gradient-card animate-slide-up">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg">Order Summary</CardTitle>
           </CardHeader>
@@ -155,7 +161,7 @@ const ShoppingCart = ({
             </div>
             
             {subtotal < 100 && (
-              <div className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">
+              <div className="text-xs text-muted-foreground bg-muted/50 p-2 rounded animate-pulse-slow">
                 <Truck className="inline w-3 h-3 mr-1" />
                 Add ${(100 - subtotal).toFixed(2)} more for free shipping!
               </div>
@@ -166,13 +172,13 @@ const ShoppingCart = ({
         {/* Checkout Button */}
         <Button 
           onClick={onCheckout}
-          className="w-full bg-gradient-primary hover:bg-gradient-accent text-lg py-6 shadow-glow"
+          className="w-full bg-gradient-primary hover:bg-gradient-accent text-lg py-6 shadow-glow hover-lift transition-smooth"
         >
           <CreditCard className="mr-2 h-5 w-5" />
           Proceed to Checkout
         </Button>
         
-        <Button variant="outline" onClick={onClose} className="w-full">
+        <Button variant="outline" onClick={onClose} className="w-full hover-lift transition-smooth">
           Continue Shopping
         </Button>
       </div>
@@ -181,13 +187,13 @@ const ShoppingCart = ({
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="w-full sm:max-w-lg">
-        <SheetHeader>
+      <SheetContent className="w-full sm:max-w-lg animate-slide-up">
+        <SheetHeader className="animate-fade-in">
           <SheetTitle className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5" />
             Shopping Cart
             {totalItems > 0 && (
-              <Badge variant="secondary" className="ml-2">
+              <Badge variant="secondary" className="ml-2 animate-bounce-in">
                 {totalItems}
               </Badge>
             )}
